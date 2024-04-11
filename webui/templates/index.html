@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="./static/fav.png" />
+    <title>{{ user.username }}</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <style>
+      .avatar {
+        margin-bottom: 20px;
+      }
+      img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+      }
+      .date {
+        font-size: 0.8rem;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar at-top">
+      <p id="username">Avatar history for <b>{{ user.username }}</b></p>
+    </div>
+    <div class="empty-space" style="padding: 30px; left: 50%; text-align: center; color: var(--text-color)">
+      <p><br>Click on any image to download it!</p>
+    </div>
+    <div class="avatars">
+      <div class="current-avatar">
+        <a
+          href="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png?size=1024"
+          download="Current_Avatar.png" target="_blank"
+        >
+          <img
+            src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png?size=1024"
+            alt="Current Avatar"
+          />
+        </a>
+        <div class="date">Current</div>
+      </div>
+      {% for user_id, avatar, date, path in users_avatars %}
+      <div class="avatar">
+        <a
+          href="{{ url_for('static', filename=path) }}"
+          download="{{ path.split('/')[-1] }}"
+        >
+          <img src="{{ url_for('static', filename=path) }}" alt="Avatar" />
+        </a>
+        <div class="date">{{ date }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="the-bottom">
+    <hr class="dashed" />
+    <footer class="footer">
+      <h4>
+        Helloo!! freezer here,
+        <br />ff you have any issues, you can join my server and text me! (or send an email, i never
+        look tho)
+      </h4>
+      <div style="width: 70%; height: 2px; background-color: var(--navbar-border);"></div>
+<p style="white-space: pre">  Contact : <a href="mailto:your@email.com">your@email.com</a>
+</p> <p style="white-space: pre">  Source  : <a href="https://github.com/dazziedez/avatarlogger">GitHub</a>
+</p> <p style="white-space: pre">  Discord : <a href="https://discord.gg/discordserver">Join mah server</a>
+</p>
+<br>
+<p style="color: #ffffff2a;">Copyright &copy; dazziedez. All rights reserved.</p>
+    </footer>
+  </div>
+  </body>
+  <script>
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if(window.pageYOffset === 0) {
+        navbar.classList.add('at-top');
+      } else {
+        navbar.classList.remove('at-top');
+      }
+    });
+  </script>
+</html>
