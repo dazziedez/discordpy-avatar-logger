@@ -33,28 +33,31 @@
       <p><br>Click on any image to download it!</p>
     </div>
     <div class="avatars">
-      <div class="current-avatar">
-        <a
-          href="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png?size=1024"
-          download="Current_Avatar.png" target="_blank"
-        >
-          <img
-            src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png?size=1024"
-            alt="Current Avatar"
-          />
-        </a>
-        <div class="date">Current</div>
-      </div>
+      {% if users_avatars %}
+        {% set current_avatar = users_avatars.pop(0) %}
+        <div class="current-avatar">
+          <a
+            href="{{ url_for('static', filename=current_avatar[3]) }}"
+            download="{{ current_avatar[3].split('/')[-1] }}"
+          >
+            <img
+              src="{{ url_for('static', filename=current_avatar[3]) }}"
+              alt="Current Avatar"
+            />
+          </a>
+          <div class="date">Current</div>
+        </div>
+      {% endif %}
       {% for user_id, avatar, date, path in users_avatars %}
-      <div class="avatar">
-        <a
-          href="{{ url_for('static', filename=path) }}"
-          download="{{ path.split('/')[-1] }}"
-        >
-          <img src="{{ url_for('static', filename=path) }}" alt="Avatar" />
-        </a>
-        <div class="date">{{ date }}</div>
-      </div>
+        <div class="avatar">
+          <a
+            href="{{ url_for('static', filename=path) }}"
+            download="{{ path.split('/')[-1] }}"
+          >
+            <img src="{{ url_for('static', filename=path) }}" alt="Avatar" />
+          </a>
+          <div class="date">{{ date }}</div>
+        </div>
       {% endfor %}
     </div>
     <div class="the-bottom">
@@ -62,13 +65,13 @@
     <footer class="footer">
       <h4>
         Helloo!! freezer here,
-        <br />ff you have any issues, you can join my server and text me! (or send an email, i never
+        <br />if you have any issues, you can join my server and text me! (or send an email, i never
         look tho)
       </h4>
       <div style="width: 70%; height: 2px; background-color: var(--navbar-border);"></div>
-<p style="white-space: pre">  Contact : <a href="mailto:your@email.com">your@email.com</a>
+<p style="white-space: pre">  Contact : <a href="mailto:ymvb@protonmail.com">ymvb@protonmail.com</a>
 </p> <p style="white-space: pre">  Source  : <a href="https://github.com/dazziedez/avatarlogger">GitHub</a>
-</p> <p style="white-space: pre">  Discord : <a href="https://discord.gg/discordserver">Join mah server</a>
+</p> <p style="white-space: pre">  Discord : <a href="https://discord.gg/catposting">Join mah server</a>
 </p>
 <br>
 <p style="color: #ffffff2a;">Copyright &copy; dazziedez. All rights reserved.</p>

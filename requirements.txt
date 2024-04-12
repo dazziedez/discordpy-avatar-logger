@@ -1,3 +1,7 @@
 flash==1.0.3
 requests==2.31.0
 Werkzeug==3.0.2
+discord.py==2.3.2
+asyncio==3.4.3
+aiohttp==3.9.4
+pathlib==1.0.1

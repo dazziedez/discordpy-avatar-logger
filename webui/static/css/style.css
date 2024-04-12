@@ -81,7 +81,8 @@ hr.dashed {
   left: 50%;
   transform: translateX(-50%);
   top: 20px;
-  width: 300px;
+  min-width: 300px;
+  padding-inline: 15px;
   height: 40px;
   box-shadow: 0 0 15px var(--box-shadow);
   display: flex;
@@ -145,6 +146,7 @@ hr.dashed {
 
 .the-bottom {
   bottom: 0;
+  margin-top: 30px;
   left: 50%;
   border: 15px solid #222222;
   border-radius: 15px;
