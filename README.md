@@ -39,10 +39,12 @@ To set up the Avatar Logger and Management System, follow these steps:
 4. **Run the application**
    This will run the bot AND the flask app, simultaneously
    ```bash
-   python main.py
+   python start.py
    ```
 
 ## Usage
+> [!NOTE]
+> You may need to tell Flask that you're using a proxy.
 
 - Navigate to `http://your.domain/<user_id>` to view the avatars and information for a specific user.
 - The Discord bot will automatically log avatar changes when configured and running.
