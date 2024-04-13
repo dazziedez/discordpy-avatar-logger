@@ -1,6 +1,9 @@
 from flask import Flask, render_template, abort
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+from os import path, listdir
+from datetime import datetime
+
 import json
 import os
 from datetime import datetime
@@ -13,26 +16,26 @@ class AvatarManager:
     def __init__(self, user_id):
         self.user_id = user_id
         self.avatar_directory = os.path.join(
-            os.path.dirname(__file__), 'static\\avatars\\', user_id)
+            os.path.dirname(__file__), 'static/avatars/', user_id)
         self.user_info = self.fetch_user_info()
 
     def _load_avatars(self):
         if not os.path.exists(self.avatar_directory):
             abort(404)
-        avatars = [avatar for avatar in os.listdir(
-            self.avatar_directory) if avatar != 'user_info.json']
+        avatars = [avatar for avatar in os.listdir(self.avatar_directory) if avatar != 'user_info.json']
         avatars_info = []
         for avatar in avatars:
             date_str = avatar.split('.')[0]
             try:
                 date_obj = datetime.strptime(date_str, '%Y-%m-%d_%H-%M-%S')
                 formatted_date = date_obj.strftime('%B %d %Y')
+                full_datetime = date_obj.isoformat()
             except ValueError:
                 formatted_date = "Unknown Date"
+                full_datetime = datetime.min.isoformat()
             avatars_info.append(
-                (self.user_id, avatar, formatted_date, 'avatars/' + self.user_id + '/' + avatar))
-        avatars_info.sort(key=lambda x: datetime.strptime(
-            x[2], '%B %d %Y') if x[2] != "Unknown Date" else datetime.min, reverse=True)
+                (self.user_id, avatar, formatted_date, 'avatars/' + self.user_id + '/' + avatar, full_datetime))
+        avatars_info.sort(key=lambda x: x[4], reverse=True)
         return avatars_info
 
     @property
@@ -77,32 +80,39 @@ def user_avatars(user_id):
 
 @app.route('/')
 def list_users():
-    avatar_directory = os.path.join(
-        os.path.dirname(__file__), 'static', 'avatars')
+    avatar_directory = path.join(path.dirname(__file__), 'static', 'avatars')
+    users_list = []
     try:
-        user_ids = [name for name in os.listdir(avatar_directory) if os.path.isdir(
-            os.path.join(avatar_directory, name))]
-        links = []
+        user_ids = [name for name in listdir(avatar_directory) if path.isdir(path.join(avatar_directory, name))]
         for user_id in user_ids:
-            user_info_path = os.path.join(
-                avatar_directory, user_id, 'user_info.json')
-            avatar_count = len([file for file in os.listdir(os.path.join(
-                avatar_directory, user_id)) if file != 'user_info.json'])
-            if os.path.exists(user_info_path):
+            user_info_path = path.join(avatar_directory, user_id, 'user_info.json')
+            user_info_exists = path.exists(user_info_path)
+            if user_info_exists:
                 with open(user_info_path, 'r') as file:
                     user_info = json.load(file)
-                    cached = "🗂️"
-                    username = user_info.get('username', 'Unknown')
-                    last_cached = user_info.get('last_updated', 'Unknown')
-                    link = f'<li><a href="/{user_id}">{cached} [{avatar_count}] {
-                        username} ({user_id}) - Last cached: {last_cached}</a></li>'
+                username = user_info.get('username', user_id)
             else:
-                link = f'<li><a href="/{user_id}">[{avatar_count}] {
-                    user_id}</a></li>'
-            links.append(link)
-        return f'<ul>{"".join(links)}</ul>'
+                username = user_id
+
+            avatar_dir = path.join(avatar_directory, user_id)
+            avatar_files = [f for f in listdir(avatar_dir) if path.isfile(path.join(avatar_dir, f)) and f != 'user_info.json']
+            if avatar_files:
+                try:
+                    latest_avatar = max(avatar_files, key=lambda f: datetime.strptime(f.split('.')[0], '%Y-%m-%d_%H-%M-%S'))
+                except ValueError:
+                    latest_avatar = avatar_files[0]
+                avatar_url = path.join('static', 'avatars', user_id, latest_avatar)
+            else:
+                avatar_url = 'default_avatar.png'
+
+            users_list.append({
+                'id': user_id,
+                'name': username,
+                'avatar_count': len(avatar_files),
+                'avatar_url': avatar_url
+            })
+        return render_template('root.html', users_list=users_list)
     except FileNotFoundError:
         return "Avatar directory not found", 404
-
 
 app.run(debug=True)

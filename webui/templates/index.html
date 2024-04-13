@@ -1,91 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="./static/fav.png" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./static/fav.png">
     <title>{{ user.username }}</title>
 
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
-      .avatar {
-        margin-bottom: 20px;
-      }
-      img {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-      }
-      .date {
-        font-size: 0.8rem;
-        color: #666;
-      }
+        .avatar {
+            margin-bottom: 20px;
+        }
+        .current {
+            border: 2px solid red; /* Example styling for the "current" class */
+        }
+        img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+        .date {
+            font-size: 0.8rem;
+            color: #666;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="navbar at-top">
-      <p id="username">Avatar history for <b>{{ user.username }}</b></p>
+        <p id="username">Avatar history for <b>{{ user.username }}</b></p>
     </div>
     <div class="empty-space" style="padding: 30px; left: 50%; text-align: center; color: var(--text-color)">
-      <p><br>Click on any image to download it!</p>
+        <p><br>Click on any image to download it!</p>
     </div>
     <div class="avatars">
-      {% if users_avatars %}
-        {% set current_avatar = users_avatars.pop(-1) %}
-        <div class="current-avatar">
-          <a
-            href="{{ url_for('static', filename=current_avatar[3]) }}"
-            download="{{ current_avatar[3].split('/')[-1] }}"
-          >
-            <img
-              src="{{ url_for('static', filename=current_avatar[3]) }}"
-              alt="Current Avatar"
-            />
-          </a>
-          <div class="date">Current</div>
-        </div>
-      {% endif %}
-      {% for user_id, avatar, date, path in users_avatars|reverse %}
-        <div class="avatar">
-          <a
-            href="{{ url_for('static', filename=path) }}"
-            download="{{ path.split('/')[-1] }}"
-          >
-            <img src="{{ url_for('static', filename=path) }}" alt="Avatar" />
-          </a>
-          <div class="date">{{ date }}</div>
-        </div>
-      {% endfor %}
+        {% for user_id, avatar, date, path, full_datetime in users_avatars %}
+            <div class="{% if loop.first %}current-{% endif %}avatar" data-datetime="{{ full_datetime }}">
+                <a href="{{ url_for('static', filename=path) }}" download="{{ path.split('/')[-1] }}">
+                    <img src="{{ url_for('static', filename=path) }}" alt="Avatar">
+                </a>
+                <div class="date">
+                    {% if loop.first %}
+                        Current
+                    {% else %}
+                        {{ date }}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
     </div>
     <div class="the-bottom">
-    <hr class="dashed" />
-    <footer class="footer">
-      <h4>
-        Helloo!! freezer here,
-        <br />if you have any issues, you can join my server and text me! (or send an email, i never
-        look tho)
-      </h4>
-      <div style="width: 70%; height: 2px; background-color: var(--navbar-border);"></div>
-<p style="white-space: pre">  Contact : <a href="mailto:ymvb@protonmail.com">ymvb@protonmail.com</a>
-</p> <p style="white-space: pre">  Source  : <a href="https://github.com/dazziedez/discordpy-avatar-logger">GitHub</a>
-</p> <p style="white-space: pre">  Discord : <a href="https://discord.gg/catposting">Join mah server</a>
-</p>
-<br>
-<p style="color: #ffffff2a;">Copyright &copy; dazziedez. All rights reserved.</p>
-    </footer>
-  </div>
-  </body>
-  <script>
-    window.addEventListener('scroll', function() {
-      const navbar = document.querySelector('.navbar');
-      if(window.pageYOffset === 0) {
-        navbar.classList.add('at-top');
-      } else {
-        navbar.classList.remove('at-top');
-      }
+        <hr class="dashed">
+        <footer class="footer">
+            <h4>
+                Helloo!! freezer here,
+                <br />if you have any issues, you can join my server and text me! (or send an email, i never look tho)
+            </h4>
+            <div style="width: 70%; height: 2px; background-color: var(--navbar-border);"></div>
+            <p style="white-space: pre">  Contact : <a href="mailto:ymvb@protonmail.com">ymvb@protonmail.com</a></p>
+            <p style="white-space: pre">  Source  : <a href="https://github.com/dazziedez/discordpy-avatar-logger">GitHub</a></p>
+            <p style="white-space: pre">  Discord : <a href="https://discord.gg/catposting">Join mah server</a></p>
+            <br>
+            <p style="color: #ffffff2a;">Copyright &copy; dazziedez. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let avatarsContainer = document.querySelector('.avatars');
+        let avatars = Array.from(avatarsContainer.children);
+        avatars.sort((a, b) => b.getAttribute('data-datetime').localeCompare(a.getAttribute('data-datetime')));
+        avatars.forEach(avatar => avatarsContainer.appendChild(avatar));
     });
-  </script>
+</script>
 </html>

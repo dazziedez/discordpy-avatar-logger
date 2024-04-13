@@ -16,14 +16,11 @@ body {
   background-color: var(--primary);
   margin: 0;
   padding: 20px;
+  color: var(--text-color)
 }
 
 a {
   color: var(--text-color);
-  text-decoration: none;
-}
-
-a:hover {
   text-decoration: none;
   font-weight: bold;
   text-shadow: 0 0 10px var(--text-color);
@@ -41,6 +38,7 @@ hr.dashed {
 }
 
 .avatar {
+  list-style-type: none;
   background-color: var(--primary);
   border: 1px solid var(--avatar-border);
   padding: 10px;
@@ -73,7 +71,6 @@ hr.dashed {
 .date {
   margin-top: 10px;
   font-size: 0.8rem;
-  color: var(--text-color);
 }
 
 .navbar {
@@ -116,10 +113,6 @@ hr.dashed {
   overflow: visible;
 }
 
-.current-avatar .date {
-  color: var(--text-color);
-}
-
 .current-avatar:hover {
   transform: translate(0px, 5px);
   box-shadow: 0px 5px 15px #b8b8b870;
@@ -134,13 +127,16 @@ hr.dashed {
   cursor: pointer;
 }
 
+.current-avatar .date {
+  color: var(--text-color);
+}
+
 .current-avatar:hover img {
   transform: scale(1.2) translateY(-15px);
   border-radius: 5%;
 }
 
 .footer {
-  color: var(--text-color);
   margin-left: 150px;
 }
 
@@ -151,4 +147,21 @@ hr.dashed {
   border: 15px solid #222222;
   border-radius: 15px;
   background-color: #222222;
+}
+
+.sort-button {
+  font-family: "Cascadia Mono", sans-serif;
+  background-color: var(--secondary);
+  border: 1px solid transparent;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sort-button:hover {
+  background-color: var(--text-color);
+  color: var(--primary);
 }

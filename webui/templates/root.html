@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>User Avatars</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='../static/css/style.css') }}"
+    />
+    <link rel="icon" type="image/png" href="./static/fav.png" />
+  </head>
+  <body>
+    <div
+      style="
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100000;
+        background-color: var(--primary);
+        border: 2px solid var(--primary);
+        border-radius: 7px;
+        box-shadow: 0px 0px 15px var(--box-shadow);
+      "
+    >
+      <button class="sort-button" onclick="sortUsers('data-name')">
+        Sort by Name
+      </button>
+      <button class="sort-button" onclick="sortUsers('avatar_count_asc')">
+        Avatar count (Ascending)
+      </button>
+      <button class="sort-button" onclick="sortUsers('avatar_count_desc')">
+        Avatar count (Descending)
+      </button>
+    </div>
+    <div style="padding-top: 55px"></div>
+    <ul id="userList" class="avatars">
+      {% for user in users_list %}
+      <li
+        class="avatar"
+        data-name="{{ user.name }}"
+        data-avatar-count="{{ user.avatar_count }}"
+      >
+        <a href="/{{ user.id }}"><img src="{{ user.avatar_url }}" alt="Avatar"></a>
+        <div class="user-name">
+          <a href="/{{ user.id }}">{{ user.name }}</a>
+        </div>
+        <div class="date">Avatars: {{ user.avatar_count }}</div>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="the-bottom">
+      <hr class="dashed">
+      <footer class="footer">
+          <h4>
+              Helloo!! freezer here,
+              <br />if you have any issues, you can join my server and text me! (or send an email, i never look tho)
+          </h4>
+          <div style="width: 70%; height: 2px; background-color: var(--navbar-border);"></div>
+          <p style="white-space: pre">  Contact : <a href="mailto:ymvb@protonmail.com">ymvb@protonmail.com</a></p>
+          <p style="white-space: pre">  Source  : <a href="https://github.com/dazziedez/discordpy-avatar-logger">GitHub</a></p>
+          <p style="white-space: pre">  Discord : <a href="https://discord.gg/catposting">Join mah server</a></p>
+          <br>
+          <p style="color: #ffffff2a;">Copyright &copy; dazziedez. All rights reserved.</p>
+      </footer>
+  </div>
+
+    <script>
+      function sortUsers(criteria) {
+        let users = [...document.getElementById("userList").children];
+        users.sort(function (a, b) {
+          if (criteria === "data-name") {
+            return a
+              .getAttribute("data-name")
+              .localeCompare(b.getAttribute("data-name"));
+          } else if (criteria === "avatar_count_asc") {
+            return (
+              parseInt(a.getAttribute("data-avatar-count")) -
+              parseInt(b.getAttribute("data-avatar-count"))
+            );
+          } else if (criteria === "avatar_count_desc") {
+            return (
+              parseInt(b.getAttribute("data-avatar-count")) -
+              parseInt(a.getAttribute("data-avatar-count"))
+            );
+          }
+        });
+        const list = document.getElementById("userList");
+        list.innerHTML = "";
+        users.forEach((user) => list.appendChild(user));
+      }
+    </script>
+  </body>
+</html>
