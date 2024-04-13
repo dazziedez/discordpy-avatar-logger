@@ -6,6 +6,10 @@ This repo contains a Flask-based web application designed for managing and displ
 
 - **Avatar Management**: Users can view a history of their avatars stored in a dedicated directory, accessible through a web interface.
 - **User Information Fetching**: The system fetches and displays user information, including the latest avatar, using Discord's API.
+### Screenshots
+|Main (WIP)|User view|
+|---------|----------|
+|![Main](https://i.imgur.com/9Aat9Cj.png)|![User](https://i.imgur.com/MTBvCnp.png)|
 
 ## Installation
 
