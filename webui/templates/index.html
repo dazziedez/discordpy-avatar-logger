@@ -34,7 +34,7 @@
     </div>
     <div class="avatars">
       {% if users_avatars %}
-        {% set current_avatar = users_avatars.pop(0) %}
+        {% set current_avatar = users_avatars.pop(-1) %}
         <div class="current-avatar">
           <a
             href="{{ url_for('static', filename=current_avatar[3]) }}"
@@ -48,7 +48,7 @@
           <div class="date">Current</div>
         </div>
       {% endif %}
-      {% for user_id, avatar, date, path in users_avatars %}
+      {% for user_id, avatar, date, path in users_avatars|reverse %}
         <div class="avatar">
           <a
             href="{{ url_for('static', filename=path) }}"
@@ -70,7 +70,7 @@
       </h4>
       <div style="width: 70%; height: 2px; background-color: var(--navbar-border);"></div>
 <p style="white-space: pre">  Contact : <a href="mailto:ymvb@protonmail.com">ymvb@protonmail.com</a>
-</p> <p style="white-space: pre">  Source  : <a href="https://github.com/dazziedez/avatarlogger">GitHub</a>
+</p> <p style="white-space: pre">  Source  : <a href="https://github.com/dazziedez/discordpy-avatar-logger">GitHub</a>
 </p> <p style="white-space: pre">  Discord : <a href="https://discord.gg/catposting">Join mah server</a>
 </p>
 <br>
