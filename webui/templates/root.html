@@ -24,21 +24,23 @@
       </button>
     </div>
     <div style="padding-top: 55px"></div>
-    <ul id="userList" class="avatars">
-      {% for user in users_list %}
-      <li
-        class="avatar"
-        data-name="{{ user.name }}"
-        data-avatar-count="{{ user.avatar_count }}"
-      >
-        <a href="/{{ user.id }}"><img src="{{ user.avatar_url }}" alt="Avatar"></a>
-        <div class="user-name">
-          <a href="/{{ user.id }}">{{ user.name }}</a>
-        </div>
-        <div class="date">Avatars: {{ user.avatar_count }}</div>
-      </li>
-      {% endfor %}
-    </ul>
+    <div class="content">
+      <ul id="userList" class="avatars">
+        {% for user in users_list %}
+        <li
+          class="avatar"
+          data-name="{{ user.name }}"
+          data-avatar-count="{{ user.avatar_count }}"
+        >
+          <a href="/{{ user.id }}"><img src="{{ user.avatar_url }}" alt="Avatar"></a>
+          <div class="user-name">
+            <a href="/{{ user.id }}">{{ user.name }}</a>
+          </div>
+          <div class="date">Avatars: {{ user.avatar_count }}</div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
     <div class="the-bottom">
       <hr class="dashed">
       <footer class="footer">
