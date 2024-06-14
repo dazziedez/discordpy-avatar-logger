@@ -16,7 +16,14 @@ body {
   background-color: var(--primary);
   margin: 0;
   padding: 20px;
-  color: var(--text-color)
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
 }
 
 a {
@@ -100,6 +107,35 @@ hr.dashed {
   box-shadow: 0 0 15px transparent;
   border: 2px solid transparent;
 }
+
+.date {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.btn-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100000;
+  background-color: transparent;
+  border: 2px solid var(--secondary);
+  border-radius: 7px;
+  box-shadow: 0px 0px 15px var(--box-shadow);
+  text-align: center;
+  backdrop-filter: blur(10px) brightness(0.7);
+  transition: border 0.3s ease, box-shadow 0.2s ease, backdrop-filter 0.2s ease;
+}
+
+.btn-bar.at-top {
+  backdrop-filter: blur(10px) brightness(1);
+  box-shadow: 0 0 15px transparent;
+  border: 2px solid transparent;
+}
+
 .current-avatar {
   background-color: var(--primary);
   border: 2px solid var(--text-color);
@@ -142,8 +178,9 @@ hr.dashed {
 
 .the-bottom {
   bottom: 0;
-  margin-top: 30px;
-  left: 50%;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
   border: 15px solid #222222;
   border-radius: 15px;
   background-color: #222222;
@@ -151,17 +188,18 @@ hr.dashed {
 
 .sort-button {
   font-family: "Cascadia Mono", sans-serif;
-  background-color: var(--secondary);
+  background-color: var(--primary);
   border: 1px solid transparent;
   padding: 10px 20px;
   margin: 5px;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, border-radius 0.3s ease;
 }
 
 .sort-button:hover {
   background-color: var(--text-color);
   color: var(--primary);
+  border-radius: 5px;
 }

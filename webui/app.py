@@ -9,8 +9,12 @@ import os
 from datetime import datetime
 import requests
 
+import handler
+from handler import error_map
+
 app = Flask(__name__)
 
+app.register_error_handler(Exception, handler.handle_error)
 
 class AvatarManager:
     def __init__(self, user_id):
@@ -22,7 +26,8 @@ class AvatarManager:
     def _load_avatars(self):
         if not os.path.exists(self.avatar_directory):
             abort(404)
-        avatars = [avatar for avatar in os.listdir(self.avatar_directory) if avatar != 'user_info.json']
+        avatars = [avatar for avatar in os.listdir(
+            self.avatar_directory) if avatar != 'user_info.json']
         avatars_info = []
         for avatar in avatars:
             date_str = avatar.split('.')[0]
@@ -68,7 +73,6 @@ class AvatarManager:
             json.dump(updated_info, file)
         return updated_info
 
-
 @app.route('/<user_id>')
 def user_avatars(user_id):
     avatar_manager = AvatarManager(user_id)
@@ -83,9 +87,15 @@ def list_users():
     avatar_directory = path.join(path.dirname(__file__), 'static', 'avatars')
     users_list = []
     try:
-        user_ids = [name for name in listdir(avatar_directory) if path.isdir(path.join(avatar_directory, name))]
+        user_ids = [name for name in listdir(avatar_directory) if path.isdir(
+            path.join(avatar_directory, name))]
+        
+        if not user_ids:
+            return render_template('error.html', error={"name": "Empty", "code": "000", "description": "Nothing to see here..\nWait for the avatars to be logged!"})
+
         for user_id in user_ids:
-            user_info_path = path.join(avatar_directory, user_id, 'user_info.json')
+            user_info_path = path.join(
+                avatar_directory, user_id, 'user_info.json')
             user_info_exists = path.exists(user_info_path)
             if user_info_exists:
                 with open(user_info_path, 'r') as file:
@@ -95,13 +105,16 @@ def list_users():
                 username = user_id
 
             avatar_dir = path.join(avatar_directory, user_id)
-            avatar_files = [f for f in listdir(avatar_dir) if path.isfile(path.join(avatar_dir, f)) and f != 'user_info.json']
+            avatar_files = [f for f in listdir(avatar_dir) if path.isfile(
+                path.join(avatar_dir, f)) and f != 'user_info.json']
             if avatar_files:
                 try:
-                    latest_avatar = max(avatar_files, key=lambda f: datetime.strptime(f.split('.')[0], '%Y-%m-%d_%H-%M-%S'))
+                    latest_avatar = max(avatar_files, key=lambda f: datetime.strptime(
+                        f.split('.')[0], '%Y-%m-%d_%H-%M-%S'))
                 except ValueError:
                     latest_avatar = avatar_files[0]
-                avatar_url = path.join('static', 'avatars', user_id, latest_avatar)
+                avatar_url = path.join(
+                    'static', 'avatars', user_id, latest_avatar)
             else:
                 avatar_url = 'default_avatar.png'
 
@@ -114,5 +127,6 @@ def list_users():
         return render_template('root.html', users_list=users_list)
     except FileNotFoundError:
         return "Avatar directory not found", 404
+
 
 app.run(debug=True)

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ error.code }} ???</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <style>
+      body {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        min-height: 100px;
+        transform: translate(-50%, -50%);
+      }
+      .stuffs {
+        background-color: var(--secondary);
+        width: 600px;
+        height: 200px;
+        padding: 20px;
+        border-radius: 5px;
+        margin: 15px;
+      }
+
+      h3 {
+        color: #6e6e6e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stuffs">
+      <h3>>>> Somehow...</h3>
+      <h1>{{ error.code }} - {{ error.name }}</h1>
+      <p>{{ error.description }}</p>
+      <a href="/">Off you go...</a>
+    </div>
+  </body>
+</html>

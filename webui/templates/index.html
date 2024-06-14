@@ -7,23 +7,6 @@
     <title>{{ user.username }}</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <style>
-        .avatar {
-            margin-bottom: 20px;
-        }
-        .current {
-            border: 2px solid red; /* Example styling for the "current" class */
-        }
-        img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-        }
-        .date {
-            font-size: 0.8rem;
-            color: #666;
-        }
-    </style>
 </head>
 <body>
     <div class="navbar at-top">
@@ -32,21 +15,23 @@
     <div class="empty-space" style="padding: 30px; left: 50%; text-align: center; color: var(--text-color)">
         <p><br>Click on any image to download it!</p>
     </div>
-    <div class="avatars">
-        {% for user_id, avatar, date, path, full_datetime in users_avatars %}
-            <div class="{% if loop.first %}current-{% endif %}avatar" data-datetime="{{ full_datetime }}">
-                <a href="{{ url_for('static', filename=path) }}" download="{{ path.split('/')[-1] }}">
-                    <img src="{{ url_for('static', filename=path) }}" alt="Avatar">
-                </a>
-                <div class="date">
-                    {% if loop.first %}
-                        Current
-                    {% else %}
-                        {{ date }}
-                    {% endif %}
+    <div class="content">
+        <div class="avatars">
+            {% for user_id, avatar, date, path, full_datetime in users_avatars %}
+                <div class="{% if loop.first %}current-{% endif %}avatar" data-datetime="{{ full_datetime }}">
+                    <a href="{{ url_for('static', filename=path) }}" download="{{ path.split('/')[-1] }}">
+                        <img src="{{ url_for('static', filename=path) }}" alt="Avatar">
+                    </a>
+                    <div class="date">
+                        {% if loop.first %}
+                            Current
+                        {% else %}
+                            {{ date }}
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
     <div class="the-bottom">
         <hr class="dashed">
@@ -70,6 +55,14 @@
         let avatars = Array.from(avatarsContainer.children);
         avatars.sort((a, b) => b.getAttribute('data-datetime').localeCompare(a.getAttribute('data-datetime')));
         avatars.forEach(avatar => avatarsContainer.appendChild(avatar));
+    });
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if(window.pageYOffset === 0) {
+        navbar.classList.add('at-top');
+      } else {
+        navbar.classList.remove('at-top');
+      }
     });
 </script>
 </html>
