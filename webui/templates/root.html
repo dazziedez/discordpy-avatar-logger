@@ -5,14 +5,14 @@
     <title>User Avatars</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='../static/css/style.css') }}"
+      href="{{ url_for('static', filename='css/style.css') }}"
     />
-    <link rel="icon" type="image/png" href="./static/fav.png" />
-
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='fav.png') }}" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
   </head>
   <body>
     <div class="btn-bar at-top">
-      <img class="icon" src="static/fav.png" width="35px" height="35px" style="margin-left: 10px;"><p1 style="margin-inline: 10px;"><b>Avatar logger</b></p1>
+      <img class="icon" src="static/fav.png" width="35px" height="35px" style="margin-left: 10px;"><p1 style="margin-inline: 10px;"><b><a>Avatar logger</a></b></p1>
       <button class="sort-button" onclick="sortUsers('data-name')">
         Sort by Name
       </button>
@@ -23,6 +23,12 @@
         Avatar count ⬇️
       </button>
     </div>
+    <button class="sort-button material-symbols-rounded"
+            onclick="toggleTheme()"
+            style="position: absolute;"
+            id="theme-toggle">
+        light_mode
+    </button>
     <div style="padding-top: 55px"></div>
     <div class="content">
       <ul id="userList" class="avatars">
@@ -53,7 +59,7 @@
           <p style="white-space: pre">  Source  : <a href="https://github.com/dazziedez/discordpy-avatar-logger">GitHub</a></p>
           <p style="white-space: pre">  Discord : <a href="https://discord.gg/catposting">Join mah server</a></p>
           <br>
-          <p style="color: #ffffff2a;">Copyright &copy; dazziedez. All rights reserved.</p>
+          <p style="color: var(--text-color); opacity: 70%;">Copyright &copy; dazziedez. All rights reserved.</p>
       </footer>
   </div>
 
@@ -90,6 +96,49 @@
         navbar.classList.remove('at-top');
       }
     });
-    </script>
+
+    // Theme stuff (it was fun)
+
+    function applyTheme(theme) {
+      document.documentElement.classList.toggle('light-theme', theme === 'light');
+    }
+
+    function getSystemTheme() {
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+
+    function setButtonIcon(theme) {
+      const button = document.getElementById('theme-toggle');
+      button.innerHTML = theme === 'light' ? 'light_mode' : theme === 'dark' ? 'dark_mode' : 'sync';
+    }
+
+    function toggleTheme() {
+      let currentTheme = localStorage.getItem('theme');
+      let newTheme;
+      if (currentTheme === 'light') {
+        newTheme = 'dark';
+      } else if (currentTheme === 'dark') {
+        newTheme = null; // System default
+      } else {
+        newTheme = 'light';
+      }
+
+      if (newTheme) {
+        localStorage.setItem('theme', newTheme);
+      } else {
+        localStorage.removeItem('theme');
+      }
+
+      applyTheme(newTheme || getSystemTheme());
+      setButtonIcon(newTheme);
+    }
+
+    (function() {
+      let savedTheme = localStorage.getItem('theme');
+      let themeToApply = savedTheme || getSystemTheme();
+      applyTheme(savedTheme ? savedTheme : getSystemTheme());
+      setButtonIcon(savedTheme);
+    })();
+  </script>
   </body>
 </html>

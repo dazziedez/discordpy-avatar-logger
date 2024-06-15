@@ -36,7 +36,8 @@ def handle_error(e):
                                    "name": "Unknown Error", "description": "An unknown error occurred."})
     elif isinstance(e, BuildError):
         status_code = 500
-        error_info = {"name": "Build Error", "description": "URL build error. Please contact me!! x~x"}
+        error_info = {"name": "Build Error",
+                      "description": "URL build error. Please contact me!! x~x"}
     else:
         status_code = 404
         error_info = error_map.get(status_code, {

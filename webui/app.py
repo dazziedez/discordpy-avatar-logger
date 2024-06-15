@@ -16,6 +16,7 @@ app = Flask(__name__)
 
 app.register_error_handler(Exception, handler.handle_error)
 
+
 class AvatarManager:
     def __init__(self, user_id):
         self.user_id = user_id
@@ -73,6 +74,7 @@ class AvatarManager:
             json.dump(updated_info, file)
         return updated_info
 
+
 @app.route('/<user_id>')
 def user_avatars(user_id):
     avatar_manager = AvatarManager(user_id)
@@ -89,7 +91,7 @@ def list_users():
     try:
         user_ids = [name for name in listdir(avatar_directory) if path.isdir(
             path.join(avatar_directory, name))]
-        
+
         if not user_ids:
             return render_template('error.html', error={"name": "Empty", "code": "000", "description": "Nothing to see here..\nWait for the avatars to be logged!"})
 
@@ -129,4 +131,4 @@ def list_users():
         return "Avatar directory not found", 404
 
 
-app.run(debug=True)
+app.run(debug=False)
