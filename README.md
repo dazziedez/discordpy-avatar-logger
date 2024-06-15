@@ -12,6 +12,36 @@ This repo contains a Flask-based web application designed for managing and displ
 |![Main](./media/home_dark.png)|![User](./media/home_light.png)|
 |![Main](./media/user_dark.png)|![User](./media/user_light.png)|
 
+<details>
+ <summary><h2>Roadmap</h2></summary>
+   
+   - [ ] WebUI
+      - [x] User view
+      - [x] Home view
+      - [x] Light theme
+      - [ ] Better sorting
+      - [ ] Cookie notice
+      - [ ] Client sided rendering
+      - [ ] Settings with login
+
+   - [ ] Bot
+      - [x] Save avatars
+      - [x] Basic commands
+      - [ ] Settings with login
+      - [ ] Compile json on creation
+      - [ ] API interface
+
+   - [ ] API
+      - [ ] Pick a library lol
+      - [ ] GET history
+      - [ ] GET user (name, id, avatar count, last changed, current image)
+      - [ ] DELETE user (auth)
+
+   - Idk... I'll have it figured out by then..
+   - sorry for the dumb terms, i'm dumb ...
+   
+</details>
+
 ## Installation
 
 To set up the Avatar Logger and Management System, follow these steps:
