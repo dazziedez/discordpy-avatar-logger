@@ -75,16 +75,19 @@ class AvatarManager:
         return updated_info
 
 
-@app.route('/<user_id>')
+@app.route('/users/<user_id>')
 def user_avatars(user_id):
     avatar_manager = AvatarManager(user_id)
     users_avatars = avatar_manager.avatars
     user_info = avatar_manager.fetch_user_info()
 
-    return render_template('index.html', user_id=user_id, user=user_info, users_avatars=users_avatars) or abort(404)
+    return render_template('user.html', user_id=user_id, user=user_info, users_avatars=users_avatars) or abort(404)
 
+@app.route('/privacy')
+def privacy():
+    return "Just the theme for now"
 
-@app.route('/')
+@app.route('/list')
 def list_users():
     avatar_directory = path.join(path.dirname(__file__), 'static', 'avatars')
     users_list = []
@@ -126,9 +129,12 @@ def list_users():
                 'avatar_count': len(avatar_files),
                 'avatar_url': avatar_url
             })
-        return render_template('root.html', users_list=users_list)
+        return render_template('list.html', users_list=users_list)
     except FileNotFoundError:
         return "Avatar directory not found", 404
 
+@app.route('/')
+def home():
+    return render_template("index.html")
 
-app.run(debug=False)
+app.run(debug=True)
