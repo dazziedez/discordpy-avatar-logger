@@ -20,7 +20,7 @@ This repo contains a Flask-based web application designed for managing and displ
       - [x] Home view
       - [x] Light theme
       - [ ] Better sorting
-      - [ ] Cookie notice
+      - [x] Cookie notice
       - [ ] Client sided rendering
       - [ ] Settings with login
 
