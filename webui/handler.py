@@ -2,6 +2,8 @@ from flask import render_template
 from werkzeug.exceptions import HTTPException
 from werkzeug.routing.exceptions import BuildError
 
+import traceback
+
 error_map = {
     400: {"name": "Bad Request", "description": "Oops! Your request is as broken as my heart."},
     401: {"name": "Unauthorized", "description": "You shall not pass! Authentication required."},
@@ -45,4 +47,5 @@ def handle_error(e):
 
     error = Error(name=error_info["name"], code=status_code,
                   description=error_info["description"])
+    print(traceback.format_exc())
     return render_template('error.html', error=error.to_dict()), status_code

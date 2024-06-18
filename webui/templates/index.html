@@ -1,118 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='fav.png') }}">
-    <title>{{ user.username }}</title>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-</head>
-<body>
-    <div class="navbar at-top">
-        <p id="username">Avatar history for <b>{{ user.username }}</b></p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='fav.png') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+  </head>
+  <body>
+    <div class="btn-bar at-top">
+      <img
+        class="icon"
+        src="static/fav.png"
+        width="25px"
+        height="25px"
+        style="margin-left: 15px"
+      /><p1 style="margin-inline: 10px"
+        ><b><a>Avatar logger</a></b></p1
+      >
+      <button class="sort-button" onclick="scrollToSection('section1')">Home</button>
+      <button class="sort-button" onclick="scrollToSection('section2')">About</button>
+      <button class="sort-button" onclick="scrollToSection('section3')">Contact</button>
     </div>
-    <button class="sort-button material-symbols-rounded"
-            onclick="toggleTheme()"
-            style="position: absolute;"
-            id="theme-toggle">
-        light_mode
+    <button
+      class="sort-button material-symbols-rounded"
+      onclick="toggleTheme()"
+      style="position: absolute"
+      id="theme-toggle"
+    >
+      light_mode
     </button>
-    <div class="empty-space" style="padding: 30px; left: 50%; text-align: center; color: var(--text-color)">
-        <p><br>Click on any image to download it!</p>
+    <div id="cookie-notice">
+      <p>
+        We use cookies to enhance your experience.<br />By using our site, you
+        agree to our <a href="/privacy">privacy policy</a>.
+      </p>
+      <button id="accept-cookies"><b>Ok!</b></button>
     </div>
-    <div class="content">
-        <div class="avatars">
-            {% for user_id, avatar, date, path, full_datetime in users_avatars %}
-                <div class="{% if loop.first %}current-{% endif %}avatar" data-datetime="{{ full_datetime }}">
-                    <a href="{{ url_for('static', filename=path) }}" download="{{ path.split('/')[-1] }}">
-                        <img src="{{ url_for('static', filename=path) }}" alt="Avatar">
-                    </a>
-                    <div class="date">
-                        {% if loop.first %}
-                            Current
-                        {% else %}
-                            {{ date }}
-                        {% endif %}
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="the-bottom">
-        <hr class="dashed">
-        <footer class="footer">
-            <h4>
-                Helloo!! freezer here,
-                <br />if you have any issues, you can join my server and text me! (or send an email, i never look tho)
-            </h4>
-            <div style="width: 70%; height: 2px; background-color: var(--navbar-border);"></div>
-            <p style="white-space: pre">  Contact : <a href="mailto:ymvb@protonmail.com">ymvb@protonmail.com</a></p>
-            <p style="white-space: pre">  Source  : <a href="https://github.com/dazziedez/discordpy-avatar-logger">GitHub</a></p>
-            <p style="white-space: pre">  Discord : <a href="https://discord.gg/catposting">Join mah server</a></p>
+    <div style="padding-top: 95px"></div>
+
+    <div class="sections">
+      <div id="section1" class="container" style="height: 50vh;
+                                                  background: linear-gradient(var(--background-gradient-one),
+                                                                              var(--background-gradient-two)),
+                                                  url('{{ url_for('static', filename='thingy.png') }}');
+                                                  background-size: cover;
+                                                  height: 500px;
+                                                  border: 3px solid var(--primary);">
+        <div class="thingy" style="font-size: 20px;">
+          <h1>
+            <span style="color: var(--primary-bold); font-weight: 800;">
+              Avatar Logger
+            </span>
             <br>
-            <p style="color: var(--text-color); opacity: 70%;">Copyright &copy; dazziedez. All rights reserved.</p>
-        </footer>
-    </div>
-</body>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        let avatarsContainer = document.querySelector('.avatars');
-        let avatars = Array.from(avatarsContainer.children);
-        avatars.sort((a, b) => b.getAttribute('data-datetime').localeCompare(a.getAttribute('data-datetime')));
-        avatars.forEach(avatar => avatarsContainer.appendChild(avatar));
-    });
-    window.addEventListener('scroll', function() {
-      const navbar = document.querySelector('.navbar');
-      if(window.pageYOffset === 0) {
-        navbar.classList.add('at-top');
-      } else {
-        navbar.classList.remove('at-top');
+            <span style="font-size: 25px; font-weight: 400; transform: translateY(-10px);">
+              (real)
+            </span>
+          </h1>
+          <p>Logs avatars or something.. I've never used it..</p>
+          <div style="display: flex; justify-content: center; transform: translateX(35px);">
+            <a href="/list">
+            <button class="sort-button" href="/list" style="display: inline-flex; align-items: center; transform: translateX(-35px); border: 1px solid var(--text-color); box-shadow: 0px 0px 10px var(--text-color); color: var(--primary); background-color: var(--text-color)">
+              <span class="material-symbols-rounded" style="font-size: 25px; transform: translateX(-10px);">browse</span> Browse
+            </button>
+            </a> 
+            <button class="sort-button" onclick="scrollToSection('section2')" style="display: inline-flex; align-items: center; transform: translateX(-35px); border: 1px solid var(--text-color);">
+              <span class="material-symbols-rounded" style="font-size: 25px; transform: translateX(-10px);">lightbulb</span> Learn More
+            </button>
+          </div>
+        </div>
+      </div>
+      <div style="padding-top: 180px"></div>
+      <div id="section2" class="container">
+        <h1>About me</h1>
+        <p>This thing downloads discord user avatars when they change. That's it.</p>
+        <p>Visit the GitHub repo for updates and contributions.</p>
+        <p>Also check out my <a href="https://dazziedez.github.io">github page</a>.</p>
+        <br><br><br>
+        <hr>
+        <br><br>
+        <h1>How to use</h1>
+        <code>>>> Please visit the <a href="https://github.com/dazziedez/discordpy-avatar-logger">repository</a> to run your own instance / contribute.</code>
+        <br><br><br>
+        <p>1. Head to the avatar list. If empty, you will get a 404 (i clear from time to time)</p>
+        <p>2. Select a user. If a user's name is a bunch of numbers they're likely not cached.</p>
+        <p>3. Select an avatr you wish to download and click on it...</p>
+        <p>Done.</p>  
+      </div>
+      </div>
+      <div style="padding-top: 80px"></div>
+      <div id="section3" class="the-bottom">
+      <hr class="dashed">
+      <footer class="footer">
+          <h4>
+              Helloo!! freezer here,
+              <br />if you have any issues, you can join my server and text me! (or send an email, i never look tho)
+          </h4>
+          <div style="width: 70%; height: 2px; background-color: var(--text-color);"></div>
+          <p style="white-space: pre">  Contact : <a href="mailto:ymvb@protonmail.com">ymvb@protonmail.com</a></p>
+          <p style="white-space: pre">  Source  : <a href="https://github.com/dazziedez/discordpy-avatar-logger">GitHub</a></p>
+          <p style="white-space: pre">  Discord : <a href="https://discord.gg/catposting">Join mah server</a></p>
+          <br>
+          <p style="color: var(--text-color); opacity: 70%;">Copyright &copy; dazziedez. All rights reserved.</p>
+      </footer>
+  </div>
+  </body>
+  <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
+  <script>
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        // Get the top position of the section relative to the document
+        const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
+
+        // Calculate the new scroll position, subtracting 20 pixels
+        const newScrollPosition = sectionTop - 140;
+      
+        // Smoothly scroll to the new position
+        window.scrollTo({
+          top: newScrollPosition,
+          behavior: "smooth"
+        });
       }
-    });
-
-    // Theme stuff (it was fun)
-
-    function applyTheme(theme) {
-      document.documentElement.classList.toggle('light-theme', theme === 'light');
     }
 
-    function getSystemTheme() {
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    }
-
-    function setButtonIcon(theme) {
-      const button = document.getElementById('theme-toggle');
-      button.innerHTML = theme === 'light' ? 'light_mode' : theme === 'dark' ? 'dark_mode' : 'sync';
-    }
-
-    function toggleTheme() {
-      let currentTheme = localStorage.getItem('theme');
-      let newTheme;
-      if (currentTheme === 'light') {
-        newTheme = 'dark';
-      } else if (currentTheme === 'dark') {
-        newTheme = null; // System default
-      } else {
-        newTheme = 'light';
-      }
-
-      if (newTheme) {
-        localStorage.setItem('theme', newTheme);
-      } else {
-        localStorage.removeItem('theme');
-      }
-
-      applyTheme(newTheme || getSystemTheme());
-      setButtonIcon(newTheme);
-    }
-
-    (function() {
-      let savedTheme = localStorage.getItem('theme');
-      let themeToApply = savedTheme || getSystemTheme();
-      applyTheme(savedTheme ? savedTheme : getSystemTheme());
-      setButtonIcon(savedTheme);
-    })();
-</script>
+  </script>
 </html>

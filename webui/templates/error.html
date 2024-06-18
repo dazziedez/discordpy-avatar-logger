@@ -7,7 +7,11 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
     />
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='fav.png') }}">
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='fav.png') }}"
+    />
     <style>
       body {
         position: absolute;
@@ -17,7 +21,9 @@
         transform: translate(-50%, -50%);
       }
       .stuffs {
-        background-color: var(--secondary);
+        background-color: var(--primary);
+        border: 1px solid var(--secondary);
+        box-shadow: 0px 0px 5px var(--secondary);
         width: 600px;
         height: 200px;
         padding: 20px;
@@ -29,6 +35,10 @@
         color: #6e6e6e;
       }
     </style>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
   </head>
   <body>
     <div class="stuffs">
@@ -37,5 +47,6 @@
       <p>{{ error.description }}</p>
       <a href="/">Off you go...</a>
     </div>
+    <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
   </body>
 </html>

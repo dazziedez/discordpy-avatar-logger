@@ -1,0 +1,14 @@
+# .gitignore
+
+.vscode
+folder.empty
+*/__pycache__/
+
+discord.log
+config.json
+
+media/
+webui/static/avatars/*
+
+webui/static/fav.png
+webui/static/thingy.png

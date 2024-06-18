@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>User Avatars</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='fav.png') }}" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  </head>
+  <body>
+    <div class="btn-bar at-top">
+      <img class="icon" src="static/fav.png" width="35px" height="35px" style="margin-left: 10px;"><p1 style="margin-inline: 10px;"><b><a href="/">Avatar logger</a></b></p1>
+      <button class="sort-button" onclick="sortUsers('data-name', this)">
+        Sort by Name
+      </button>
+      <button class="sort-button" onclick="sortUsers('avatar_count_asc', this)">
+        Avatar count ⬆️
+      </button>
+      <button class="sort-button" onclick="sortUsers('avatar_count_desc', this)">
+        Avatar count ⬇️
+      </button>
+    </div>
+    <button class="sort-button material-symbols-rounded"
+            onclick="toggleTheme()"
+            style="position: absolute;"
+            id="theme-toggle">
+        light_mode
+    </button>
+    <div id="cookie-notice">
+      <p>We use cookies to enhance your experience.<br>By using our site, you agree to our <a href="/privacy">privacy policy</a>.</p>
+      <button id="accept-cookies"><b>Ok!</b></button>
+    </div>
+    <div style="padding-top: 55px"></div>
+    <div class="content">
+      <ul id="userList" class="avatars">
+        {% for user in users_list %}
+        <li
+          class="avatar"
+          data-name="{{ user.name }}"
+          data-avatar-count="{{ user.avatar_count }}"
+        >
+          <a href="/users/{{ user.id }}"><img src="{{ user.avatar_url }}" alt="Avatar"></a>
+          <div class="user-name">
+            <a href="/users/{{ user.id }}">{{ user.name }}</a>
+          </div>
+          <div class="date">Avatars: {{ user.avatar_count }}</div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="the-bottom">
+      <hr class="dashed">
+      <footer class="footer">
+          <h4>
+              Helloo!! freezer here,
+              <br />if you have any issues, you can join my server and text me! (or send an email, i never look tho)
+          </h4>
+          <div style="width: 70%; height: 2px; background-color: var(--text-color);"></div>
+          <p style="white-space: pre">  Contact : <a href="mailto:ymvb@protonmail.com">ymvb@protonmail.com</a></p>
+          <p style="white-space: pre">  Source  : <a href="https://github.com/dazziedez/discordpy-avatar-logger">GitHub</a></p>
+          <p style="white-space: pre">  Discord : <a href="https://discord.gg/catposting">Join mah server</a></p>
+          <br>
+          <p style="color: var(--text-color); opacity: 70%;">Copyright &copy; dazziedez. All rights reserved.</p>
+      </footer>
+  </div>
+
+    <script>
+      function sortUsers(criteria, button) {
+        let users = [...document.getElementById("userList").children];
+        users.sort(function (a, b) {
+          if (criteria === "data-name") {
+            return a
+              .getAttribute("data-name")
+              .localeCompare(b.getAttribute("data-name"));
+          } else if (criteria === "avatar_count_asc") {
+            return (
+              parseInt(a.getAttribute("data-avatar-count")) -
+              parseInt(b.getAttribute("data-avatar-count"))
+            );
+          } else if (criteria === "avatar_count_desc") {
+            return (
+              parseInt(b.getAttribute("data-avatar-count")) -
+              parseInt(a.getAttribute("data-avatar-count"))
+            );
+          }
+        });
+        const list = document.getElementById("userList");
+        list.innerHTML = "";
+        users.forEach((user) => list.appendChild(user));
+
+        const buttons = document.querySelectorAll('.sort-button');
+        buttons.forEach(btn => btn.classList.remove('selected'));
+
+        button.classList.add('selected');
+      }
+  </script>
+  <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
+  </body>
+</html>
