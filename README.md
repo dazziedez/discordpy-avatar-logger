@@ -68,7 +68,7 @@ To set up the Avatar Logger and Management System, follow these steps:
    - Adjust the Flask and bot settings as necessary in their respective files.
 
 > [!NOTE]
-> Please refer to [this article](flask.palletsprojects.com/en/2.3.x/deploying/proxy_fix/) when using a reverse proxy.
+> Please refer to [this article](https://flask.palletsprojects.com/en/2.3.x/deploying/proxy_fix/) when using a reverse proxy.
 > 
 > I'd recommend you generally refer to [this article](https://flask.palletsprojects.com/en/2.3.x/deploying/) as well!
 4. **Run the application**
